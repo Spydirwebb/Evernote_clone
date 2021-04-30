@@ -1,15 +1,22 @@
-export const addNote = (note) => {
-    return (dispatch, getState, { useFirestore }) => {
-        console.log("hello from addNote");
-        const firestore = useFirestore();
-        console.log(note)
+import { useSelector } from 'react-redux';
 
+export const addNote = (note) => {
+    return ({ useFirestore }) => {
+        const firestore = useFirestore();
+        const { uid } = useSelector((state) => state.firebase.auth);
         firestore
-            .collection('notes')
+            .collection("users")
+            .doc(uid)
+            .collection("notes")
             .add({
                 ...note,
                 favorite: false,
-                createdAt: new Date()
+                createdAt: new Date ()
+            })
+            .then((docRef) => {
+                docRef.update({
+                    noteId: docRef.id,
+                })
             })
             .then(() => {
                 console.log('added the note successfully')
@@ -18,4 +25,21 @@ export const addNote = (note) => {
                 console.log(err)
             })
     }
+}
+
+export const deleteNote = (note) => {
+    return ({ useFirestore }) => {
+        const firestore = useFirestore();
+        const { uid } = useSelector((state) => state.firebase.auth);    
+        firestore
+            .collection("users").doc(uid)
+            .collection("notes").doc(note.id)
+            .delete()
+            .then(() => {
+                console.log('deleted the note successfully')
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    };
 }

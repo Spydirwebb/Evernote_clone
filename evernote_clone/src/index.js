@@ -16,6 +16,7 @@ import { createFirestoreInstance } from 'redux-firestore'
 import { rootReducer } from "./store/reducers/rootReducer"
 //router
 import { BrowserRouter } from 'react-router-dom';
+import "./index.css"
 
 const rrfConfig = {
   userProfile: "users",

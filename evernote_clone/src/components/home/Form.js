@@ -35,6 +35,20 @@ const Form = () => {
             })
     };
     
+
+    const deleteNote = (note) => {
+        firestore
+            .collection("users").doc(uid)
+            .collection("notes").doc(note.id)
+            .delete()
+            .then(() => {
+                console.log('deleted the note successfully')
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    };
+    
     
     const handleSubmit = (e) => {
         e.preventDefault();
