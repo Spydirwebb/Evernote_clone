@@ -1,10 +1,11 @@
 export const addNote = (note) => {
-    return (dispatch, getState, { getFirestore }) => {
+    return (dispatch, getState, { useFirestore }) => {
         console.log("hello from addNote");
-        const firestore = getFirestore();
+        const firestore = useFirestore();
         console.log(note)
 
-        firestore.collection('notes')
+        firestore
+            .collection('notes')
             .add({
                 ...note,
                 favorite: false,

@@ -1,18 +1,45 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
+import { useFirestore } from 'react-redux-firebase'
 import useInput from '../../customhook/useInput';
-import{ addNote } from '../../store/actions/noteAction';
-import { useDispatch } from 'react-redux'
+//import{ addNote } from '../../store/actions/noteAction';
+//import { useDispatch } from 'react-redux'
+
 
 const Form = () => {
     const [title, bindTitle, resetTitle] = useInput();
     const [content, bindContent, resetContent] = useInput();
-    const dispatch = useDispatch();
-
-
+    const firestore = useFirestore();
+    const { uid } = useSelector((state) => state.firebase.auth);
+    
+    const addNote = (note) => {
+        firestore
+            .collection("users")
+            .doc(uid)
+            .collection("notes")
+            .add({
+                ...note,
+                favorite: false,
+                createdAt: new Date ()
+            })
+            .then((docRef) => {
+                docRef.update({
+                    noteId: docRef.id,
+                })
+            })
+            .then(() => {
+                console.log('added the note successfully')
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    };
+    
+    
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log("you clicked submit");
-        dispatch(addNote({title,content}));
+        addNote({title,content});
         console.log("this is after dispatch")
         resetTitle();
         resetContent();
