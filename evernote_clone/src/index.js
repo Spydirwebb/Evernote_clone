@@ -1,42 +1,51 @@
 //react
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-//redux
-import { createStore, applyMiddleware, compose } from 'redux'
-import rootReducer from './store/reducers/rootReducer';
-import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
 //firebase
-import { ReactReduxFirebaseProvider, getFirebase } from 'react-redux-firebase';
-import { createFirestoreInstance, getFirestore, reduxFirestore } from 'redux-firestore'
-import firebase from 'firebase/app';
-import firebaseConfig from './config/fbconfig';
+import firebase from 'firebase/app'
+import "firebase/auth"
+import "firebase/firestore"
+import firebaseConfig from "./config/firebaseConfig";
+//redux
+import { createStore } from 'redux'
+import { Provider } from 'react-redux'
+import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
+import { createFirestoreInstance } from 'redux-firestore'
+import { rootReducer } from "./store/reducers/rootReducer"
+//router
+import { BrowserRouter } from 'react-router-dom';
 
-//createStore
-const store = createStore(rootReducer, compose(
-    applyMiddleware(thunk.withExtraArgument({getFirebase, getFirestore})),
-    reduxFirestore(firebaseConfig))
-)
+const rrfConfig = {
+  userProfile: "users",
+  useFirestoreForProfile: true,
+};
 
-//react-redux-firebase props
+firebase.initializeApp(firebaseConfig);
+firebase.firestore();
+
+const initialState = {};
+const store = createStore(rootReducer, initialState);
+
 const rrfProps = {
-    firebase, 
-    config: firebaseConfig,
-    dispatch: store.dispatch, 
-    createFirestoreInstance
-}
+  firebase,
+  config: rrfConfig,
+  dispatch: store.dispatch,
+  createFirestoreInstance,
+};
+
 ReactDOM.render(
-  <Provider store={store}>
-    <ReactReduxFirebaseProvider {...rrfProps}>
-        <React.StrictMode>
-            <App />
-        </React.StrictMode>
-    </ReactReduxFirebaseProvider>
-  </Provider>,
-  document.getElementById('root')
+  <React.StrictMode>
+    <Provider store={store}>
+      <ReactReduxFirebaseProvider {...rrfProps}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ReactReduxFirebaseProvider>
+    </Provider>
+  </React.StrictMode>,
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

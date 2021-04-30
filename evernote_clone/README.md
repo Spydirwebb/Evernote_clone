@@ -14,4 +14,6 @@ keywords: react, redux, firebase, materialize, hooks, custom Hooks
   6)Create rootReducer.js
     needs: firebase, firestore
   7)Create store in index.js
+  8)Create noteAction
+    adds note to firestore
     
