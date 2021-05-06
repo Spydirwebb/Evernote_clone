@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux';
 import { useFirestore } from 'react-redux-firebase'
+import { Link } from 'react-router-dom'
 //import { deleteNote } from "../../store/actions/noteAction"
 import moment from 'moment'
 
@@ -53,7 +54,9 @@ const Note = ({ note }) => {
                 <i className="material-icons red-text" style={{cursor:'pointer'}} onClick={favoriteHandler}>{heartMarkup}</i>
                 <i className="material-icons" style={{cursor:'pointer'}} onClick={deleteNoteHandler}>delete</i> 
             </div>
-            <h5 className="black-text">{note.title}</h5>
+            <Link to={"/note/"+note.id}>
+                <h5 className="black-text">{note.title}</h5>
+            </Link>
             <p className="truncate">{note.content}</p>
             <p className="grey-text">{moment(note.createdAt.toDate()).fromNow()}</p>
             <div className="right-align"><i className="material-icons black-text">edit</i></div>

@@ -5,6 +5,7 @@ import SignIn from "./routes/SignIn";
 import Navbar from './components/layout/Navbar';
 import Home from './components/home/Home';
 import Favorites from './components/notes/Favorites'
+import NoteDetail from "./components/notes/NoteDetail"
 import './App.css';
 //DOM
 import {Switch, Route} from "react-router-dom";
@@ -14,12 +15,9 @@ function App() {
     <div className="grey lighten-3">
       <Navbar />
       <Switch>
-        <PrivateRoute path = "/home">
-          <Home />
-        </PrivateRoute>
-        <PrivateRoute path ='/favorites'>
-            <Favorites />
-        </PrivateRoute>
+        <PrivateRoute path = "/home" component={Home} />
+        <PrivateRoute path ='/favorites' component={Favorites} />
+        <PrivateRoute path ='/note/:id' component={NoteDetail} />
         <Route exact path = "/">
             <SignIn />
         </Route>
