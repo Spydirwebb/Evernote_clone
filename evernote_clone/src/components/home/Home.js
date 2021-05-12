@@ -13,8 +13,6 @@ const Home = () => {
             storeAs: 'notes'
     });
     const notes = useSelector((state) => state.firestore.ordered.notes)
-    
-    console.log(notes)
 
     return (
         <div className="container">
