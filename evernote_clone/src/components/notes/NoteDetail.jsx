@@ -10,15 +10,27 @@ const NoteDetail = (props) => {
     useFirestoreConnect(
         {collection:`users/${uid}/notes/`});
         
-    const note = useSelector((state) => state.firestore.data[`users/${uid}/notes/`][id])
+    //const notes = useSelector((state) => state.firestore.data[`users/${uid}/notes/`][id])
+    const note = useSelector(({firestore:{data}}) => data[`users/${uid}/notes/`] && data[`users/${uid}/notes/`][id])
 
     console.log("note id:"+ id)
     console.log("Notes:"+JSON.stringify(note))
     
+    const PlaceHolder = (note) => {
+        if(note!==undefined){
+            return (
+                <div>hi<h1>{note.title}</h1></div>
+            )
+        }
+        return (
+            <div>Placeholder</div>   
+        )
+    }
     return (
-        //<div>
-        //   {note.title}
-        //</div>
+        /*<div>
+           <PlaceHolder note={note}/>
+        </div>
+        /* */
         <div className="container section">
             <div className="card z-depth-0">
                 <div className="card-content">
