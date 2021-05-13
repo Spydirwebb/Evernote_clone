@@ -59,7 +59,11 @@ const Note = ({ note }) => {
             </Link>
             <p className="truncate">{note.content}</p>
             <p className="grey-text">{moment(note.createdAt.toDate()).fromNow()}</p>
-            <div className="right-align"><i className="material-icons black-text">edit</i></div>
+            <div className="right-align">
+                <Link to={`/editform/${note.id}`}>
+                    <i className="material-icons black-text">edit</i>
+                </Link>
+            </div>
         </div>
     )
 }
