@@ -33,28 +33,11 @@ const Form = () => {
             .catch((err) => {
                 console.log(err)
             })
-    };
-    
-
-    const deleteNote = (note) => {
-        firestore
-            .collection("users").doc(uid)
-            .collection("notes").doc(note.id)
-            .delete()
-            .then(() => {
-                console.log('deleted the note successfully')
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-    };
-    
+    };    
     
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("you clicked submit");
         addNote({title,content});
-        console.log("this is after dispatch")
         resetTitle();
         resetContent();
     }

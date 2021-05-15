@@ -2,7 +2,6 @@ import React from 'react'
 import { useSelector } from 'react-redux';
 import { useFirestore } from 'react-redux-firebase'
 import { Link } from 'react-router-dom'
-//import { deleteNote } from "../../store/actions/noteAction"
 import moment from 'moment'
 
 const Note = ({ note }) => {
@@ -45,6 +44,7 @@ const Note = ({ note }) => {
     const favoriteHandler = () => {
         toggleFav(note)
     }
+
 
     const heartMarkup = note.favorite ? 'favorite': 'favorite_border'
 
